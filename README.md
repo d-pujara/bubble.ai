@@ -7,3 +7,15 @@ Bubble is a news aggregation community platform designed to combat misinformatio
 
 
 
+
+## Bubble Tweet Generator
+
+`bubble_tweets.py` is a lightweight demo script that creates short bubble-style summaries from example news articles. It shows how different viewpoints on a topic can be condensed into tweet-sized snippets.
+
+### Usage
+
+```bash
+python bubble_tweets.py
+```
+
+The script prints a short summary for each sample article along with its labeled perspective. You can modify `sample_articles` in the script to experiment with your own sources.
