@@ -1,4 +1,4 @@
-from flask import Flask, render_template, redirect, url_for, request, flash
+from flask import Flask, render_template, redirect, url_for, request, flash, jsonify
 from flask_sqlalchemy import SQLAlchemy
 from flask_security import Security, SQLAlchemyUserDatastore, UserMixin, RoleMixin, login_required, current_user
 from flask_mail import Mail
@@ -62,9 +62,15 @@ def verify_password(plain_password, hashed_password, salt):
 
 # Utility function for speech-to-text using FFT
 def speech_to_text(audio_file_path):
-    @app.route('/upload_audio', methods=['POST'])
-    
+    """Convert speech in the given audio file to text."""
+    # Use the FFT code or integrate a dedicated speech-to-text library here.
+    # Replace the following line with your actual speech-to-text implementation.
+    return process_audio(audio_file_path)
+
+
+@app.route('/upload_audio', methods=['POST'])
 def upload_audio():
+    """Endpoint for receiving an audio file and returning its transcript."""
     if 'audio' not in request.files:
         return jsonify({'error': 'No audio file provided'})
 
@@ -75,7 +81,7 @@ def upload_audio():
     audio_file.save(audio_path)
 
     # Perform speech-to-text using FFT or a dedicated library
-    result_text = process_audio(audio_path)
+    result_text = speech_to_text(audio_path)
 
     return jsonify({'result': result_text})
 
@@ -89,18 +95,21 @@ def process_audio(audio_path):
 
 # Utility function for news aggregation and topic modeling
 def news_aggregation_and_topic_modeling(articles):
-    # Code for news aggregation and topic modeling
-    # ...
+    """Aggregate news and perform topic modeling."""
+    # TODO: implement
+    pass
 
 # Utility function for bias detection in news articles
 def bias_detection(news_articles):
-    # Code for bias detection
-    # ...
+    """Detect bias in a collection of news articles."""
+    # TODO: implement
+    pass
 
 # Utility function for sentiment analysis bias detection using logistic regression
 def train_logistic_regression_model(features, labels):
-    # Code for training logistic regression model
-    # ...
+    """Train a logistic regression model for sentiment bias detection."""
+    # TODO: implement
+    pass
 
 # Routes
 @app.route('/')
