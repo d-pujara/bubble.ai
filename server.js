@@ -1,5 +1,15 @@
 const express = require('express');
 const bodyParser = require('body-parser');
+const mysql = require('mysql');
+
+// Basic MySQL connection pool. Adjust credentials as needed.
+const pool = mysql.createPool({
+  connectionLimit: 10,
+  host: 'localhost',
+  user: 'root',
+  password: '',
+  database: 'bubble'
+});
 
 const app = express();
 const port = 3000;
@@ -113,6 +123,10 @@ app.get('/news', (req, res) => {
   });
 
 // Start the server
-app.listen(port, () => {
-  console.log(`Server is running on http://localhost:${port}`);
-});
+if (require.main === module) {
+  app.listen(port, () => {
+    console.log(`Server is running on http://localhost:${port}`);
+  });
+}
+
+module.exports = app;
