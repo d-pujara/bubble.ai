@@ -1,5 +1,3 @@
-sql
-Copy code
 -- Users table
 CREATE TABLE Users (
     UserID INT PRIMARY KEY,
