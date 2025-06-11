@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>News Globe</title>
+    <style>
+        html, body { margin: 0; height: 100%; overflow: hidden; }
+        #globeViz { position: absolute; top: 0; left: 0; right: 0; bottom: 0; }
+        #controls { position: absolute; top: 10px; left: 10px; background: rgba(255,255,255,0.8); padding: 10px; border-radius: 4px; }
+    </style>
+    <script src="https://unpkg.com/three@0.152.2/build/three.min.js"></script>
+    <script src="https://unpkg.com/globe.gl@2.33.3/dist/globe.gl.min.js"></script>
+</head>
+<body>
+<div id="globeViz"></div>
+<div id="controls">
+    <label>Locality:
+        <select id="localityFilter">
+            <option value="">All</option>
+            <option value="North America">North America</option>
+            <option value="Europe">Europe</option>
+            <option value="Asia">Asia</option>
+        </select>
+    </label>
+    <label>Topic:
+        <select id="topicFilter">
+            <option value="">All</option>
+            <option value="Politics">Politics</option>
+            <option value="Technology">Technology</option>
+            <option value="Health">Health</option>
+        </select>
+    </label>
+    <label>Bias:
+        <select id="biasFilter">
+            <option value="">All</option>
+            <option value="Left">Left</option>
+            <option value="Center">Center</option>
+            <option value="Right">Right</option>
+        </select>
+    </label>
+</div>
+<script>
+const newsData = [
+    { title: "Tech Advances", locality: "North America", topic: "Technology", bias: "Center", lat: 37.7749, lng: -122.4194 },
+    { title: "Elections", locality: "Europe", topic: "Politics", bias: "Left", lat: 51.5074, lng: -0.1278 },
+    { title: "Healthcare Breakthrough", locality: "Asia", topic: "Health", bias: "Right", lat: 35.6895, lng: 139.6917 }
+];
+
+const GlobeObj = Globe();
+const globe = GlobeObj(document.getElementById('globeViz'))
+    .pointOfView({ lat: 20, lng: 0, altitude: 2 })
+    .globeImageUrl('https://unpkg.com/three-globe/example/img/earth-dark.jpg')
+    .pointsData(newsData)
+    .pointLat('lat')
+    .pointLng('lng')
+    .pointColor(() => 'orange')
+    .pointAltitude(0.01)
+    .pointLabel(d => `${d.title}\n${d.topic} (${d.bias})`);
+
+function updateMarkers() {
+    const loc = document.getElementById('localityFilter').value;
+    const topic = document.getElementById('topicFilter').value;
+    const bias = document.getElementById('biasFilter').value;
+
+    const filtered = newsData.filter(d =>
+        (!loc || d.locality === loc) &&
+        (!topic || d.topic === topic) &&
+        (!bias || d.bias === bias)
+    );
+    globe.pointsData(filtered);
+}
+
+document.getElementById('localityFilter').addEventListener('change', updateMarkers);
+document.getElementById('topicFilter').addEventListener('change', updateMarkers);
+document.getElementById('biasFilter').addEventListener('change', updateMarkers);
+</script>
+</body>
+</html>
